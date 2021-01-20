@@ -241,6 +241,60 @@ files:
         }
     }
   learner_created: false
+- name: src/bullscows/secretCode.java
+  visible: true
+  text: |
+    package bullscows;
+
+    import javax.swing.*;
+
+    class SecretCode {
+        StringBuilder secretCode = new StringBuilder("");
+
+        public StringBuilder secretCodeBuilder (int numDigits) {
+            while (secretCode.length() < numDigits) {
+                secretCode = secretCode.append(randomizer());
+                if (secretCode.charAt(0) == '0') {
+                    secretCode.replace(0, 1, randomizer());
+                }
+                for (int index = 0; index < secretCode.length() - 1; index++) {
+                    if (secretCode.charAt(index) == secretCode.charAt(secretCode.length() - 1)) {
+                        secretCode.replace(secretCode.charAt(secretCode.length()) - 1,
+                                secretCode.charAt(secretCode.length()), randomizer());
+                    }
+                }
+            } return secretCode;
+        }
+
+        private String randomizer() {
+            long pseudoRandomNumber = System.nanoTime();
+            StringBuilder randomizer = new StringBuilder();
+            randomizer.append(pseudoRandomNumber).reverse();
+            return randomizer.substring(randomizer.length() * 1 / 5 , randomizer.length() * 1 / 5 + 1);
+        }
+
+        public char charAt(int codeIndex) {
+            return secretCode.charAt(codeIndex);
+        }
+
+        public int indexOf(String userCode) {
+            return secretCode.indexOf(userCode);
+        }
+
+        public String toString() {
+            return secretCode.toString();
+        }
+
+        public int length() {
+            return secretCode.length();
+        }
+
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/53/stages/291/implement
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations! Continue on <a href="https://hyperskill.org/projects/53/stages/291/implement">JetBrains
+    Academy</a>
+  time: Wed, 20 Jan 2021 07:56:03 UTC
+record: 5

@@ -1,26 +1,29 @@
 package bullscows;
 
 
+import java.util.Scanner;
+
 
 public class Main {
+    static Scanner scanner = new Scanner(System.in);
     static int numBulls = 0;
     static int numCows = 0;
-    static int numberTurns = 0;
 
-    public static int secretCode() {
-        int secretCode = 1234;
-        System.out.println("The secret code is prepared: ****.");
-        return secretCode;
-    }
+    static int numDigits = 0;
+
+
 
     public static int turns(int numberTurns) {
-        System.out.printf("\nTurn %d. Answer: ", numberTurns);
-        int userInput = 4321;
-        numberTurns++;
-        return userInput;
+        System.out.printf("\nTurn %d:\n", numberTurns);
+        return ++numberTurns;
     }
+
+
     public static void gradePrint(int result) {
         switch (result) {
+            case 0:
+                System.out.println("Grade: None.");
+                break;
             case 1:
                 System.out.println("Grade: 1 bull.");
                 break;
@@ -50,37 +53,83 @@ public class Main {
         }
     }
 
-    public static int result(int secretCode, int userInput) {
-
-
-        if (secretCode != userInput) {
-            numBulls = 0;
-            numCows = 0;
-            return 1;
-        } else {
-            return 0;
+    public static int result(SecretCode secretCode, String userInput) {
+        numBulls = 0;
+        numCows = 0;
+        int result = 0;
+        for (int codeIndex = 0; codeIndex < secretCode.length(); codeIndex++) {
+            if (secretCode.charAt(codeIndex) != userInput.charAt(codeIndex)) {
+                if (secretCode.indexOf(String.valueOf(userInput.charAt(codeIndex))) != -1) {
+                    numCows++;
+                }
+            } else {
+                numBulls++;
+            }
         }
+        if (numCows == 0) {
+            if (numBulls == 0) {
+                result = 0;
+            } else if (numBulls == 1) {
+                result = 1;
+            } else {
+                result = 3;
+            }
+        }
+        if (numCows == 1) {
+            if (numBulls == 0) {
+                result = 2;
+            } else if (numBulls == 1) {
+                result = 5;
+            } else {
+                result = 6;
+            }
+        }
+        if (numCows > 1) {
+            if (numBulls == 0) {
+                result = 4;
+            } else if (numBulls == 1) {
+                result = 7;
+            } else {
+                result =  8;
+            }
+        }
+        return result;
     }
 
 
     public static void main(String[] args) {
-        /*int secretCode = secretCode();
-        int userInput = turns(numberTurns);
-        do {
-            turns(numberTurns);
-            gradePrint(result(secretCode, userInput));
-        } while (userInput != secretCode);
-        System.out.printf("Congrats! The secret code is %d", secretCode);
-        System.exit(0);*/
-        secretCode();
-        System.out.println("\nTurn 1. Answer: ");
-        System.out.println("1111");
-        System.out.printf("Grade: 1 bull.\n");
-        System.out.println("\nTurn 2. Answer: ");
-        System.out.println("1234");
-        System.out.printf("Grade: 4 bulls.\n");
-        System.out.println("Congrats! The secret code is 1234");
 
+        int numberTurns = 1;
+        //secretCode();
+        /*String userCode = userCode();
+        gradePrint(result(secretCode, userCode));
+        System.out.printf("The secret code is %s.", secretCode);*/
+        System.out.println("Please, enter the secret code's length:");
+        int numDigits = scanner.nextInt();
+        if (numDigits > 10) {
+            while (numDigits > 10) {
+                System.out.printf("Error: can't generate a secret number with a length of %d " +
+                        "because there aren't enough unique digits.\n", numDigits);
+                numDigits = scanner.nextInt();
+            }
+        }
+
+        //int numDigits = 1;
+        SecretCode secretCode = new SecretCode();
+        secretCode.secretCodeBuilder(numDigits);
+        System.out.println("Okay, let's start a game!");
+        String userInput = "";
+
+        do {
+            numberTurns = turns(numberTurns);
+            userInput = scanner.next();
+            gradePrint(result(secretCode, userInput));
+        } while (!userInput.equals(secretCode.toString()));
+        System.out.printf("Congratulations! You guessed the secret code.");
 
     }
+
 }
+
+
+

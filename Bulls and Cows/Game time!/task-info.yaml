@@ -243,6 +243,13 @@ files:
         }
     }
   learner_created: false
+- name: src/bullscows/secretCode.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/53/stages/290/implement
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations! Continue on <a href="https://hyperskill.org/projects/53/stages/290/implement">JetBrains
+    Academy</a>
+  time: Wed, 20 Jan 2021 04:45:56 UTC
+record: 4
