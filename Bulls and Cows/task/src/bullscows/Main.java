@@ -96,28 +96,54 @@ public class Main {
         return result;
     }
 
+    public static void inputCodeChecker(int numDigits, int numSymbols) {
+        if (numDigits == 0) {
+            System.out.println("Error: it's not possible to generate a code with no length");
+            System.exit(0);
+        }
+
+
+        if (numDigits > numSymbols) {
+            System.out.printf("\nError: it's not possible to generate a code with a " +
+                    "length of %d with %d unique symbols.", numDigits, numSymbols);
+            System.exit(0);
+        }
+        if (numSymbols > 36) {
+            System.out.printf("Error: maximum number of possible symbols in the code is 36 (0-9, a-z).");
+            System.exit(0);
+        }
+    }
+
+    public static int inputCatch(String input) {
+        int inputInt = 0;
+        try {
+            inputInt = Integer.parseInt(input);
+        } catch (Exception e) {
+            System.out.println("Error: \"" + input + "\" isn't a valid number");
+            System.exit(0);
+        }
+        return inputInt;
+    }
+
 
     public static void main(String[] args) {
 
         int numberTurns = 1;
-        //secretCode();
-        /*String userCode = userCode();
-        gradePrint(result(secretCode, userCode));
-        System.out.printf("The secret code is %s.", secretCode);*/
-        System.out.println("Please, enter the secret code's length:");
-        int numDigits = scanner.nextInt();
-        if (numDigits > 10) {
-            while (numDigits > 10) {
-                System.out.printf("Error: can't generate a secret number with a length of %d " +
-                        "because there aren't enough unique digits.\n", numDigits);
-                numDigits = scanner.nextInt();
-            }
-        }
 
-        //int numDigits = 1;
+        System.out.println("Please, enter the secret code's length:");
+        String input1 = scanner.nextLine();
+        numDigits = inputCatch(input1);
+        System.out.println("Input the number of possible symbols in the code:");
+        String input2 = scanner.nextLine();
+        int numSymbols = inputCatch(input2);
+        inputCodeChecker(numDigits, numSymbols);
+
+        
         SecretCode secretCode = new SecretCode();
-        secretCode.secretCodeBuilder(numDigits);
+
+        secretCode.secretCodeBuilder(numDigits, numSymbols);
         System.out.println("Okay, let's start a game!");
+        System.out.println(secretCode);
         String userInput = "";
 
         do {
